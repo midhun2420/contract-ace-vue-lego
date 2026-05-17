@@ -1,0 +1,46 @@
+<div class="container-fluid pl-md-6 h-100">
+    <div class="row position-relative z-1">
+        <div class="col-md-7 h-100">
+            <img src="../../assets/images/Shape2.png" class="top-content-line" alt="">
+            <div class="container p-0">
+                <div class="header">
+                    <router-link to="/auth/design/" class="text-white fs-6">ContractAce</router-link>
+                </div>
+                <div class="text-white content-container pr-md-6" style="calc(100vh - 160px)">
+                    <div class="xeo-card-1 bs-l-semi-m">
+                        <p class="card-head">Login</p>
+                        <b-form @success="loginClicked" @failure="loginError" :save-url="loginUrl"
+                                #default="{loading}" :save-params="model">
+                            <div class="">
+                                <validated-input border-radius="custom" v-model="model.username" :disabled="loading" :rules="rules.username" placeholder="Username"
+                                                 name="Username"/>
+                                <custom-password-input border-radius="custom" v-model="model.password"
+                                                       :disabled="loading"
+                                                       :rules="rules.password"
+                                                       placeholder="Password" name="Password"/>
+                            </div>
+                            <div class="alert-danger" v-if="errorMessage" v-html="errorMessage"></div>
+                            <div class="row fl-cc">
+                                <div class="col-xl-3 col-lg-4 col-6">
+                                    <btn color="secondary" border-radius="custom" type="submit" text="Login"/>
+                                </div>
+                                <p class="mb-0 mt-3">Not a member?
+                                    <router-link to="/auth/register/">Register now</router-link>
+                                </p>
+                            </div>
+                        </b-form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row bg-main d-none d-md-block"
+         :style="{ 'height': `${window.height}px`, 'min-height': `${window.height}px`}">
+        <div class="col-5 p-0 h-100">
+            <img class="img-fluid" src="../../assets/images/bg.png" alt="">
+            <p class="bg-text">HIRE THE <br> BEST TEAMS</p>
+        </div>
+    </div>
+    <p class="content-text pl-6">POST JOBS.BID.HIRE</p>
+</div>
+<img src="../../assets/images/Shape1.png" class="bottom-content-line" alt="">

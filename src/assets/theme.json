@@ -1,0 +1,98 @@
+{
+    "background-colors": {
+        "bg-1": "#EEEEEE",
+        "bg-2": "#FFFFFF",
+        "bg-3": "#F2F2F2",
+        "bg-4": "#E6E6E6"
+    },
+
+    "border-color-levels": {
+        "border-color": "#E4E9F2",
+        "border-color-light": "#EDF1F7",
+        "border-color-dark": "#8F9BB3"
+    },
+
+    "text-colors": {
+        "text-1": "#161616",
+        "text-2": "#525252",
+        "text-3": "#666666",
+        "text-4": "#A8A8A8",
+        "text-white": "#FFFFFF"
+    },
+
+    "theme-colors": {
+        "primary": {
+            "color": "#274466",
+            "contrast": "white",
+            "focus": "600",
+            "active": "600",
+            "hover": "400"
+        },
+        "secondary": {
+            "color": "#e8ae0e",
+            "contrast": "white",
+            "focus": "600",
+            "active": "600",
+            "hover": "400"
+        },
+        "third": {
+            "color": "#aee80e",
+            "contrast": "white",
+            "focus": "600",
+            "active": "600",
+            "hover": "400"
+        }
+    },
+
+    "semantic-colors": {
+        "warning": {
+            "color": "#ffc107",
+            "contrast": "white",
+            "focus": "600",
+            "active": "600",
+            "hover": "400"
+        },
+        "success": {
+            "color": "#28a745",
+            "contrast": "white",
+            "focus": "600",
+            "active": "600",
+            "hover": "400"
+        },
+        "danger": {
+            "color": "#dc3545",
+            "contrast": "white",
+            "focus": "600",
+            "active": "600",
+            "hover": "400"
+        },
+        "info": {
+            "color": "#17a2b8",
+            "contrast": "white",
+            "focus": "600",
+            "active": "600",
+            "hover": "400"
+        }
+    },
+
+    "flags": {
+        "enable-offset-classes": false,
+        "enable-color-variations": true,
+        "enable-full-color-variations": true,
+        "enable-grid-classes": true,
+        "enable-color-transparencies": false,
+        "enable-bg-classes": true,
+        "enable-text-classes": true,
+        "enable-bgc-classes": true,
+        "enable-bgg-classes": false,
+        "enable-bgt-classes": false,
+        "enable-text-i-classes": true,
+        "enable-bg-transparency-classes": false,
+        "enable-bg-variations-classes": true
+    },
+
+    "variables": {
+        "element-border-color-focus": "var(--color-secondary)"
+    }
+
+}

@@ -1,0 +1,50 @@
+@import "~lego-framework/src/scss/style";
+@import "~lego-framework/src/scss/loading/overlay-loading";
+@import "~lego-framework/src/scss/loading/loading.min.css";
+@import "./custom";
+@import "./content-editable";
+.c-input-select {
+  .form-control {
+    position: relative;
+    padding: var(--spacer-1) var(--spacer-2) !important;
+
+
+    input {
+      //font-family: 'inter-bold';
+      //font-size: 0.8rem;
+      padding: var(--spacer-1) var(--spacer-2) !important;
+      color: var(--color-white) !important;
+    }
+
+    .form-check > .control:focus-visible, .form-control > .control:focus-visible {
+      color: white;
+    }
+
+    .vs__open-indicator {
+      display: none !important;
+    }
+
+    .vs__actions {
+      display: none !important;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: var(--spacer-3);
+      top: 50%;
+      transform: translateY(-50%) !important;
+      width: 16px;
+      height: 16px;
+      background: url("../assets/images/icons/material-symbols_arrow-forward-ios-rounded.png");
+        background-repeat: no-repeat;
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.gl{
+    background-color: #90d2a2!important;
+    color:black!important;
+    border:0px  #90d2a2!important;
+}

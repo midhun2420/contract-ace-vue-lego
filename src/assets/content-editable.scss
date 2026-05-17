@@ -1,0 +1,138 @@
+[contenteditable=true] {
+    outline: 0;
+    //box-shadow: 2px 2px 0 2px var(--color-primary);
+}
+
+.pos-st {
+    position: sticky;
+    top:      0;
+}
+
+.pos-sb {
+    position: sticky;
+    bottom:   0;
+}
+
+.pos-r {position: relative;}
+
+.highlight-box,
+.dragover-box,
+.select-box,
+.position-select-box {
+    pointer-events: none;
+    display:        none;
+    position:       absolute;
+    top:            0;
+    left:           0;
+    width:          0;
+    height:         0;
+    z-index:        0;
+    outline:        1px solid #2f5c92;
+    transition:     all 250ms;
+}
+
+.highlight-box {
+    .highlight {
+        &-name {
+            display:       inline-block;
+            position:      relative;
+            top:           -20px;
+            left:          -1px;
+            z-index:       2;
+            width:         auto;
+            height:        20px;
+            padding:       2px 5px;
+            border-radius: 3px 3px 0px 0px;
+            font-size:     small;
+            color:         var(--color-white);
+            background:    var(--color-primary);
+        }
+    }
+}
+
+.select-box {
+    .vue-popover {
+        pointer-events: auto;
+    }
+
+    .select {
+        &-actions {
+            position:      absolute;
+            top:           -2rem;
+            right:         -1px;
+            z-index:       2;
+            border-radius: 0.25rem 0.25rem 0 0;
+            overflow:      hidden;
+
+            &.left {
+                left:  -1px;
+                right: auto;
+            }
+
+            i {
+                padding:        0.5rem;
+                color:          var(--color-primary-200);
+                background:     var(--color-primary);
+                pointer-events: auto;
+                line-height:    1;
+                cursor:         pointer;
+                margin:         0;
+                display:        inline-block;
+                transition:     transform 300ms, color 300ms;
+
+                &:hover {
+                    transform: scaleX(1.1);
+                    color:     var(--color-white);
+                }
+            }
+        }
+
+        &-add-button {
+            $bw:         125px;
+            position:    absolute;
+            bottom:      -12px;
+            width:       $bw;
+            left:        50%;
+            margin-left: -$bw / 2;
+
+            button {
+                color:            var(--color-white);
+                outline:          0;
+                border:           0;
+                background-color: var(--color-primary);
+                text-align:       center;
+                border-radius:    30px;
+                line-height:      24px;
+                cursor:           pointer;
+                pointer-events:   visible;
+                padding:          0.1em 1em;
+                box-shadow:       0px 0px 5px 1px rgba(0, 0, 0, 0.25);
+            }
+
+            button + button {
+                margin-left: 0.1em;
+            }
+        }
+    }
+}
+
+.table td .form-group {
+    margin-bottom: 0;
+}
+
+
+.align-left {
+    text-align: left;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.align-justify {
+    text-align: justify;
+}
+
+.align-full {
+    text-align: justify-all;
+}

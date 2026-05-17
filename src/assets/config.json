@@ -1,0 +1,11 @@
+{
+    "pagination": {
+        "prevPageIcon": "ni ni-bold-left",
+        "nextPageIcon": "ni ni-bold-right"
+    },
+
+    "forms": {
+        "formErrorAnimation": "fade",
+        "formAnimation": "fade"
+    }
+}

@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.53590ada0e1469197ff871565c69819a.js"
+  "/precache-manifest.da3902f0369505ef0c6ce1911ef01b98.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "contract-ace-vue-lego"});

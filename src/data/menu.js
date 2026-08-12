@@ -144,7 +144,7 @@ const getMenu = function () {
 
         ...(isEnabled(user.packages.vendor_tab) ? [{
             icon : 'fa fa-retweet',
-            text : 'Vendors',
+            text : 'Market Place',
             link : '/app/my-contacts/'
         }] : []),
 

@@ -130,19 +130,43 @@ export default {
     methods : {
         publishTemplate (item) {
             const that = this;
-            axios.form(urls.Admin.StandardTemplate.publish, { id : item.id }).then(function (response) {
-                const json = response.data;
-                if (json.error === false) {
-                    that.publishSuccess(json);
-                } else {
-                    that.publishFailure(json);
-                }
-            });
+
+            axios.form(urls.Admin.StandardTemplate.publish, { id : item.id })
+                .then(function (response) {
+                    console.log('Publish Response:', response.data);
+
+                    const json = response.data;
+
+                    if (json.error === false) {
+                        that.publishSuccess(json);
+                    } else {
+                        that.publishFailure(json);
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
-        publishSuccess () {
+        publishSuccess (response) {
+            this.$notify(
+                response.msg,
+                'Message',
+                {
+                    type : 'success'
+                }
+            );
+
             this.$refs.table.refreshTable();
         },
-        publishFailure () {
+        publishFailure (response) {
+            this.$notify(
+                response.msg || 'Publish Failed',
+                'Error',
+                {
+                    type : 'danger'
+                }
+            );
+
             this.$refs.table.refreshTable();
         },
         viewDetails (rowData) {
@@ -153,11 +177,14 @@ export default {
             this.$router.push('/app/standard-template/' + rowData.id + '/bid-view/');
         },
 
-        formSuccess () {
+        formSuccess (response) {
+            console.log('formSuccess called', response);
+
             const refs = this.$refs;
+
             refs.addModal.close();
             refs.editModal.close();
-            // this.editingItem = null;
+
             refs.table.refreshTable();
         },
 
@@ -188,7 +215,18 @@ export default {
         deleteComplete (response) {
             this.deletingItem = null;
             this.$refs.deleteModal.close();
+
             this.$refs.table.refreshTable();
+
+            setTimeout(() => {
+                this.$notify(
+                    'Deleted Successfully',
+                    'Message',
+                    {
+                        type : 'success'
+                    }
+                );
+            }, 1000);
         }
     }
 };

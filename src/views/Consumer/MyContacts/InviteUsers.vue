@@ -39,9 +39,7 @@
             </modal>
             <modal title="Send Invitation" no-close-on-backdrop ref="sendInviteModal" width="40r"
                    header-color="primary">
-                <b-form ref="sendInviteForm" :save-url="sendInvitation" @success="formSuccess1"
-                        v-slot="{model, loading}"
-                        :save-params="{invitation, email}">
+                <b-form ref="sendInviteForm" :save-url="sendInvitation" @success="formSuccess1"  @failure="formFailure" v-slot="{model, loading}"     :save-params="{invitation, email}">
                     <div class="row">
                         <div class="col">
                             <validated-vue-select label="Tender Number" v-model="model.tender"
@@ -173,7 +171,19 @@ export default {
         },
         deleteComplete (response) {
             this.deletingItem = null;
+
             this.$refs.deleteModal.close();
+
+            if (response && !response.error) {
+                this.$notify(
+                    'Deleted successfully',
+                    'Message',
+                    {
+                        type : 'success'
+                    }
+                );
+            }
+
             this.$refs.table.refreshTable();
         },
         showInvitationModal (item) {
@@ -182,18 +192,65 @@ export default {
             const refs = this.$refs;
             refs.sendInviteModal.show();
         },
+        formFailure (response) {
+            console.log('FAILURE RESPONSE', response);
+
+            const json = response?.data || {};
+
+            if (json.errors?.email) {
+                this.$notify(
+                    json.errors.email,
+                    'Error',
+                    {
+                        type : 'danger'
+                    }
+                );
+
+                this.$refs.sendInviteModal.close();
+
+                return;
+            }
+
+            if (json.msg) {
+                this.$notify(
+                    json.msg,
+                    'Error',
+                    {
+                        type : 'danger'
+                    }
+                );
+
+                this.$refs.sendInviteModal.close();
+            }
+        },
         formSuccess (response) {
+            console.log('CREATE SUCCESS', response);
+
             const refs = this.$refs;
-            refs.addModal.close();
+
+            // Close Invite User modal
+            if (refs.addModal) {
+                refs.addModal.close();
+            }
+
+            // Refresh table
             refs.table.refreshTable();
         },
         formSuccess1 (response) {
-            // if (response.data.msg === 'Email sent successfully') {
-            //     this.$notify(response.data.msg, 'Success',
-            //         {
-            //             type : 'success'
-            //         });
-            // }
+            console.log('response', response);
+
+            if (response && response.data && response.data.error) {
+                this.$notify(
+                    response.data.errors.email,
+                    'Error',
+                    {
+                        type : 'danger'
+                    }
+                );
+                this.$refs.sendInviteModal.close();
+                return;
+            }
+
             const refs = this.$refs;
             refs.sendInviteModal.close();
             refs.table.refreshTable();

@@ -537,9 +537,9 @@ export default {
         console.log('Route query:', this.$route.query);
         console.log('Project ID from query:', this.$route.query.project_id);
         console.log('Project ID from params:', this.$route.params.project_id);
-        if (!sessionStorage.getItem('tenderReturnPath')) {
-            sessionStorage.setItem('tenderReturnPath', this.$route.fullPath);
-        }
+        // if (!sessionStorage.getItem('tenderReturnPath')) {
+        //     sessionStorage.setItem('tenderReturnPath', this.$route.fullPath);
+        // }
     },
 
     methods : {
@@ -576,31 +576,21 @@ export default {
         // },
 
         backClicked () {
-            // 👉 If current page is archived tender details
-            if (this.$route.path.includes('archived-tender')) {
-                this.$router.replace('/app/archived/tender/').catch(() => {});
-                return;
-            }
+            console.log(
+                'RETURN PATH',
+                sessionStorage.getItem('tenderReturnPath')
+            );
 
-            // 👉 existing logic (for normal tender)
-            const returnPath = sessionStorage.getItem('tenderReturnPath');
+            const returnPath =
+        sessionStorage.getItem('tenderReturnPath');
 
             if (returnPath) {
                 sessionStorage.removeItem('tenderReturnPath');
-                this.$router.replace(returnPath).catch(() => {});
+                this.$router.replace(returnPath);
                 return;
             }
 
-            if (
-                this.details &&
-        (this.details.status === 'Created' || this.details.status === 'Saved') &&
-        this.details.parent_id
-            ) {
-                this.$router.replace(`/app/parent/${this.details.parent_id}/tender/`);
-                return;
-            }
-
-            this.$router.replace('/app/tender/').catch(() => {});
+            this.$router.replace('/app/archived/tender/');
         },
         handleBackNavigation (path, projectId, projectName, parentId) {
             // Check if this is an archived tender

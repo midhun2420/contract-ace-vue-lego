@@ -369,23 +369,34 @@
         </div>
 
         <!-- CARD VIEW -->
-        <div v-if="filteredProducts.length && productViewType === 'card'" class="row">
-          <div v-for="(p, index) in filteredProducts" :key="index" class="col-3 mb-3">
-            <div class="card p-3 h-100 bs-3">
-              <h6 class="font-weight-bold text-center">{{ p.name }}</h6>
-              <p class="text-center text-muted fs--1" v-if="p.brand">{{ p.brand }}</p>
-              <p class="text-center price">₹ {{ p.price }}</p>
-              <div class="product-info">
-                <p class="mb-1"><small><strong>Unit:</strong> {{ p.unit || 'N/A' }}</small></p>
-                <p class="mb-1"><small><strong>Quantity:</strong> {{ p.quantity }}</small></p>
-                <p class="mb-1" v-if="p.location"><small><strong>Location:</strong> {{ p.location }}</small></p>
-              </div>
-              <div class="text-center mt-2">
-                <btn size="xs" color="primary" text="View Details" @click="viewProductDetails(p)" />
-              </div>
-            </div>
-          </div>
-        </div>
+<div v-if="filteredProducts.length && productViewType === 'card'" class="row">
+  <div v-for="(p, index) in filteredProducts" :key="index" class="col-3 mb-3">
+    <div class="card p-3 h-100 bs-3">
+
+      <!-- CARD HEADER -->
+      <div class="text-center mb-3">
+        <h6 class="font-weight-bold mb-1">{{ p.name }}</h6>
+        <p class="text-muted fs--1 mb-1">{{ p.brand || '&nbsp;' }}</p>
+        <p class="price mb-0">₹ {{ p.price }}</p>
+      </div>
+
+      <hr class="mt-0 mb-2" />
+
+      <!-- CARD BODY -->
+      <div class="product-info mb-3">
+        <p class="mb-1"><small><strong>Unit:</strong> {{ p.unit || 'N/A' }}</small></p>
+        <p class="mb-1"><small><strong>Quantity:</strong> {{ p.quantity || 'N/A' }}</small></p>
+        <p class="mb-1"><small><strong>Location:</strong> {{ p.location || 'N/A' }}</small></p>
+      </div>
+
+      <!-- CARD FOOTER -->
+      <div class="text-center">
+        <btn size="xs" color="primary" text="View Details" @click="viewProductDetails(p)" />
+      </div>
+
+    </div>
+  </div>
+</div>
 
         <!-- LIST VIEW -->
         <div v-if="filteredProducts.length && productViewType === 'list'" class="table-responsive">

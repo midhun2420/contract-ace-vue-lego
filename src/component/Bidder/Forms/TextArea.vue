@@ -3,7 +3,7 @@
         <div class="form-group" v-if="viewOnly">
             {{ getValue() }}
         </div>
-        <CustomTextArea @input="input" :value="getValue()"/>
+        <CustomTextArea v-else @input="input" :value="getValue()"/>
     </div>
 </template>
 

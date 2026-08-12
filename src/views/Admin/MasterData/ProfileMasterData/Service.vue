@@ -110,6 +110,15 @@ export default {
             this.deletingItem = null;
             this.$refs.deleteModal.close();
             this.$refs.table.refreshTable();
+            setTimeout(() => {
+                this.$notify(
+                    'Deleted Successfully',
+                    'Message',
+                    {
+                        type : 'success'
+                    }
+                );
+            }, 1000);
         }
     }
 };

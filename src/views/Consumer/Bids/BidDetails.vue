@@ -7,10 +7,11 @@
         <div v-if="!loading && permission">
             <!--            Tender Edit Form           -->
             <div v-if="details">
-                <Canvas ref="canvas"
-                        v-if="details.status==='Published' || details.status==='Saved'"
-                        :json="initial_json" :variable-json="variablesJson"
-                        :title="'Bid Details' + ' # ' + details.id">
+                <!-- BidDetailsPage - Canvas title fix -->
+<Canvas ref="canvas"
+        v-if="details.status==='Published' || details.status==='Saved'"
+        :json="initial_json" :variable-json="variablesJson"
+        :title="(details.name ? details.name.substring(0, 20) + (details.name.length > 20 ? '....' : '') : 'Bid Details')">
                     <div class="btn-group mb-2">
                         <btn v-if="currentUser.features.my_bids_views_and_update && details.tender_status==='Published'"
                              type="button" color="primary" size="xs" @click="onSave" text="Save"/>
@@ -237,8 +238,12 @@ export default {
             that.loading = true;
             axios.form(urls.Consumer.MyBid.details, { bid_id : that.id }).then(function (response) {
                 const json = response.data;
+                console.log('Full response:', json);
+                console.log('bid.name:', json.bid?.name);
+                console.log('tender data:', json.tender?.data);
                 if (json.error === false) {
                     that.details = json.bid;
+                    that.details.name = json.bid.tender || 'Bid Details';
                     that.variablesJson = JSON.stringify(json.bid.json);
                     that.initial_json = JSON.stringify(json.tender.data.tender_json);
                     that.tender_id = json.tender.data.tender_id;

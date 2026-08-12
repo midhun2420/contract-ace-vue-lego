@@ -11,7 +11,14 @@
                     <h4>Bid Preview</h4>
                 </div>
                 <div class="col text-right mb-3">
-                    <btn color="secondary" class="mr-2" size="sm" @click="printBid" text="Print"/>
+                    <btn
+    v-if="canPrintTender"
+    color="secondary"
+    class="mr-2"
+    size="sm"
+    @click="printBid"
+    text="Print"
+/>
                     <btn type="button" color="primary" size="sm"
                          @click="$router.push('/app/my-bid/')" text="Back"/>
                 </div>
@@ -48,7 +55,15 @@ export default {
         };
     },
     computed : {
-        ...mapGetters(['currentUser'])
+        ...mapGetters(['currentUser']),
+
+        canPrintTender () {
+            const pkg = this.currentUser.packages || {};
+            return (
+                this.currentUser.role === 'owner' &&
+            (pkg.printing_tenders === true || pkg.printing_tenders === 'true')
+            );
+        }
     },
     mounted () {
         this.loadDetails();

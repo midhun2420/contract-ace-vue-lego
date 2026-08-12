@@ -260,7 +260,21 @@ export default {
             }
         },
         viewDetails (rowData) {
-            this.$router.push('/app/archived-tender/' + rowData.id + '/details/');
+            console.log('CURRENT PATH', this.$route.fullPath);
+
+            sessionStorage.setItem(
+                'tenderReturnPath',
+                this.$route.fullPath
+            );
+
+            console.log(
+                'SAVED PATH',
+                sessionStorage.getItem('tenderReturnPath')
+            );
+
+            this.$router.push(
+                '/app/archived-tender/' + rowData.id + '/details/'
+            );
         },
         preview (rowData) {
             this.$router.push('/app/archived-tender/' + rowData.id + '/preview/');

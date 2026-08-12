@@ -84,22 +84,27 @@
                 </div>
 
                 <!-- PROJECT SELECT -->
-                <div class="row my-3">
-                    <div class="col-md-4 ml-2">
-                        <label class="mb-1"><b>Projects</b></label>
-                        <select
-                            class="form-control"
-                            style="background-color: white !important;"
-                            v-model="selectedProject"
-                            @change="openProjectModal"
-                        >
-                            <option value="">All Projects</option>
-                            <option v-for="p in projects" :key="p.id" :value="p.id">
-                                {{ p.name }}
-                            </option>
-                        </select>
-                    </div>
-                </div>
+<div class="row my-3 fl-a-c ">
+    <div class="col-md-6 fl-x fl-a-c content-col mb-0">
+        <label class="mb-0 mx-3 me-2 fl-x fl-a-c">
+            <b>Projects</b>
+        </label>
+
+        <select
+            class="form-control "
+            style="background-color: white !important;"
+            v-model="selectedProject"
+            @change="openProjectModal"
+        >
+            <option value="">All Projects</option>
+
+            <option v-for="p in projects" :key="p.id" :value="p.id">
+                {{ p.name }}
+            </option>
+        </select>
+
+    </div>
+</div>
 
                 <!-- ✅ FIXED ALIGNMENT: Notifications and Calendar in equal columns -->
                 <div v-if="details" class="row content-row">
@@ -241,7 +246,6 @@ export default {
                 notifications : []
             },
 
-            // ✅ Aggregated counts calculated from projects
             aggregatedCounts : {
                 tenders            : 0,
                 'tender-issued'    : 0,
@@ -292,7 +296,6 @@ export default {
         groupedProjectMessages () {
             if (!this.details || !this.details.notifications) return {};
 
-            // Filter only notifications with project_name
             const projectNotifications = this.details.notifications.filter(n => n.project_name);
 
             return projectNotifications.reduce((acc, n) => {
@@ -303,30 +306,31 @@ export default {
             }, {});
         },
 
-        // Get only non-project notifications (General notifications)
         generalNotifications () {
             if (!this.details || !this.details.notifications) return [];
 
-            // Return only notifications without project_name
             return this.details.notifications.filter(n => !n.project_name);
         }
     },
 
+    // ✅ FIX
     mounted () {
-        this.loadDetails();
-        this.fetchProjects();
+        this.fetchProjects().then(() => {
+            this.loadDetails();
+        });
     },
 
+    // ✅ FIX
     watch : {
         '$route' () {
-            this.loadDetails();
-            this.fetchProjects();
+            this.fetchProjects().then(() => {
+                this.loadDetails();
+            });
         }
     },
 
     methods : {
-        // ✅ Load notifications and calendar only
-        // ✅ Load dashboard details and use the counts from API
+
         redirectToTenderList (type) {
             const projectId = this.selectedProjectData.id;
             const projectName = this.selectedProjectData.name;
@@ -335,12 +339,15 @@ export default {
                 path  : `/app/project/${projectId}/details/`,
                 query : {
                     name   : projectName,
-                    status : type // optional filter
+                    status : type
                 }
             });
         },
+
+        // ✅ FIXED
         loadDetails () {
             this.loading = true;
+
             axios.get(urls.Admin.DashBoard.details)
                 .then(res => {
                     if (res.data && res.data.error === false) {
@@ -349,7 +356,7 @@ export default {
                             notifications : res.data.notifications || []
                         };
 
-                        // ✅ Use counts directly from API response
+                        // Set dashboard values first
                         this.aggregatedCounts = {
                             tenders            : res.data['tender-created'] || res.data.tenders || 0,
                             'tender-issued'    : res.data['tender-issued'] || 0,
@@ -360,14 +367,21 @@ export default {
                         };
 
                         this.calendarOptions.events = res.data.events?.data || [];
+
+                        // Override with Projects total if loaded
+                        if (this.projects.length) {
+                            this.calculateAggregates();
+                        }
                     }
                 })
                 .catch(err => {
                     console.error('Error loading dashboard details:', err);
+
                     this.details = {
                         success       : false,
                         notifications : []
                     };
+
                     this.resetAggregates();
                 })
                 .finally(() => {
@@ -375,7 +389,7 @@ export default {
                 });
         },
 
-        // ✅ Fetch projects and calculate aggregates
+        // ✅ FIXED
         async fetchProjects () {
             try {
                 const res = await axios.get(urls.Consumer.Projects.list);
@@ -391,16 +405,14 @@ export default {
                     bids_finalized    : Number(p.bids_finalized) || 0
                 }));
 
-                // ✅ Calculate totals from projects
+                // Calculate totals from Projects API
                 this.calculateAggregates();
             } catch (err) {
                 console.error('Error loading projects:', err);
                 this.projects = [];
-                this.resetAggregates();
             }
         },
 
-        // ✅ Calculate aggregate counts from all projects
         calculateAggregates () {
             this.aggregatedCounts = this.projects.reduce((acc, project) => {
                 acc.tenders += project.tenders_created;
@@ -409,6 +421,7 @@ export default {
                 acc.bids += project.bids_requests;
                 acc['bids-submitted'] += project.bids_submitted;
                 acc['bids-finalized'] += project.bids_finalized;
+
                 return acc;
             }, {
                 tenders            : 0,
@@ -420,7 +433,6 @@ export default {
             });
         },
 
-        // ✅ Reset aggregates to zero
         resetAggregates () {
             this.aggregatedCounts = {
                 tenders            : 0,
@@ -432,14 +444,13 @@ export default {
             };
         },
 
-        // ✅ Open modal with correct project data
         openProjectModal () {
             if (!this.selectedProject) return;
 
             const project = this.projects.find(p => p.id === this.selectedProject);
+
             if (!project) return;
 
-            // ✅ Properly map all properties including bids_requests
             this.selectedProjectData = {
                 id                : project.id,
                 name              : project.name,
@@ -453,11 +464,13 @@ export default {
 
             this.$refs.projectModal.show();
         },
+
         onModalClose () {
             this.selectedProject = '';
         }
     }
 };
+
 </script>
 
 <style scoped>

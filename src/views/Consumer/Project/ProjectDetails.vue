@@ -926,20 +926,21 @@ export default {
         },
 
         deleteComplete (response) {
-            if (response && response.data) {
-                if (response.data.error === false && response.data.success === true) {
-                    this.$notify(response.data.msg || 'Tender Deleted Successfully', 'Success', {
-                        type : 'success'
-                    });
-                } else {
-                    this.$notify(response.data.msg || 'Failed to delete tender', 'Error', {
-                        type : 'danger'
-                    });
-                }
+            const data = response.data || response;
+            console.log(data);
+            if (data.success === true) {
+                this.$notify(
+                    data.msg || 'Deleted Successfully',
+                    'Success',
+                    { type : 'success' }
+                );
+                this.$refs.table.refreshTable();
             } else {
-                this.$notify('Tender Deleted Successfully', 'Success', {
-                    type : 'success'
-                });
+                this.$notify(
+                    data.msg || 'Unable to delete record',
+                    'Warning',
+                    { type : 'warning' }
+                );
             }
 
             this.deletingItem = null;

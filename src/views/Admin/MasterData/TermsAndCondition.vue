@@ -132,7 +132,8 @@ export default {
             addUrl       : urls.Admin.MasterData.Terms.add,
             viewUrl      : urls.Admin.MasterData.Terms.view,
             termsUrl     : null,
-            errorMessage : ''
+            errorMessage : '',
+            formKey      : 0
         };
     },
 
@@ -140,8 +141,6 @@ export default {
 
         // 🔹 After upload success
         formSuccess (response) {
-            this.$refs.addForm.model = {};
-
             this.$notify(
                 'Successfully Uploaded Terms and Conditions',
                 'Success',
@@ -149,8 +148,12 @@ export default {
             );
 
             this.termsUrl = response.data.file;
-        },
 
+            // ✅ Reload page after notification shows
+            setTimeout(() => {
+                location.reload();
+            }, 1200);
+        },
         viewTerms () {
             this.errorMessage = '';
 

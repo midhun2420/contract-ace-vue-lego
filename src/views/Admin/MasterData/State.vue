@@ -122,9 +122,33 @@ export default {
         },
 
         deleteComplete (response) {
-            this.deletingItem = null;
+            const data = response.data || response;
+            console.log(data);
+            if (data.success === true) {
+                this.$notify(
+                    data.message || 'Deleted Successfully',
+                    'Success',
+                    { type : 'success' }
+                );
+                this.$refs.table.refreshTable();
+            } else {
+                this.$notify(
+                    data.message || 'Unable to delete record',
+                    'Warning',
+                    { type : 'warning' }
+                );
+            }
             this.$refs.deleteModal.close();
-            this.$refs.table.refreshTable();
+            // this.$refs.table.refreshTable();
+            // setTimeout(() => {
+            //     this.$notify(
+            //         'Deleted Successfully',
+            //         'Message',
+            //         {
+            //             type : 'success'
+            //         }
+            //     );
+            // }, 1000);
         }
     }
 };

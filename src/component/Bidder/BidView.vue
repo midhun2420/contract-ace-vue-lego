@@ -41,3 +41,8 @@ export default {
 };
 
 </script>
+<style scoped>
+:deep(.form-group) {
+    white-space: pre-line !important;
+}
+</style>

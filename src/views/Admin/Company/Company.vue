@@ -276,7 +276,7 @@
                     :initial-data="{id:company_id, order: current_order}">
                 <div class="row mb-2">
                     <div class="col">
-                        <validated-input name="Order" :rules="{required:true}" label="Order"
+                        <validated-input name="Order" :rules="{required:true}" label="Order" type="number"
                                          :disabled="loading" v-model="model.order"/>
                     </div>
                 </div>
@@ -464,11 +464,16 @@ export default {
 
             this.editingItem = null;
         },
-        orderFormSuccess () {
+        orderFormSuccess (response) {
             const refs = this.$refs;
             refs.editOrderModal.close();
-            this.loadData();
 
+            // Show the success message from API response
+            this.$notify(response.message || 'Order updated successfully', '', {
+                type : 'success'
+            });
+
+            this.loadData();
             this.editingItem = null;
         },
         loadStateOptions1 (item) {
@@ -553,16 +558,38 @@ export default {
                 }
             });
         },
-        suspendSuccess () {
+        suspendSuccess (json) {
+            this.$notify(json.msg, '', {
+                type : 'success'
+            });
+
             this.loadData();
         },
-        suspendFailure () {
+        suspendFailure (json) {
+            this.$notify(json.msg, '', {
+                type : 'error'
+            });
             this.loadData();
         },
         deleteComplete (response) {
+            const data = response.data || response;
+            console.log(data);
+            if (data.success === true) {
+                this.$notify(
+                    data.message || 'Deleted Successfully',
+                    'Success',
+                    { type : 'success' }
+                );
+                this.loadData(); // ✅ table refresh
+            } else {
+                this.$notify(
+                    data.message || 'Unable to delete record',
+                    'Warning',
+                    { type : 'warning' }
+                );
+            }
+            this.$refs.deleteModal.close(); // ✅ modal close (always)
             this.deletingItem = null;
-            this.$refs.deleteModal.close();
-            this.loadData();
         },
         onOptionSelected (option) {
             if (option) {

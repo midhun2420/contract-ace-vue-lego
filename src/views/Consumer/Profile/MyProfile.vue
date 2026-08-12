@@ -322,7 +322,7 @@
               <small class="text-muted">Enter amount in ₹ (e.g., 1000000.00)</small>
             </div>
             <div class="col-md-4">
-              <validated-ajax-vue-select name="Package" :url="packageOptions" label="Package" :disabled="loading" v-model="model.package" />
+              <validated-ajax-vue-select name="Package" :url="packageOptions" label="Package" disabled v-model="model.package" :clearable="true" :reduce="item => item?.id || ''" />
               <small class="text-muted">Select subscription package</small>
             </div>
           </div>
@@ -540,7 +540,7 @@ export default {
             industryOptions             : urls.Admin.Company.industryOptions,
             vendorCategoryOptions       : urls.Admin.Company.vendorCategoryOptions,
             servicesOptions             : urls.Admin.Company.servicesOptions,
-            packageOptions              : urls.Admin.Company.packageOptions || '/admin/package/options/', // ADD THIS LINE
+            packageOptions              : urls.Admin.MasterData.Package.packageOptions || '/admin/package/options/', // ADD THIS LINE
             stateOptions                : [],
             countryOptions              : urls.Consumer.Company.countryOptions,
             districtOptions             : [],
@@ -1042,9 +1042,9 @@ export default {
 
             // Handle package - extract ID if it's an object
             if (item.package && typeof item.package === 'object') {
-                this.editingItem.package = item.package.id || null;
+                this.editingItem.package = item.package.id || '';
             } else {
-                this.editingItem.package = item.package;
+                this.editingItem.package = item.package || '';
             }
 
             // Handle category - ensure it's an array

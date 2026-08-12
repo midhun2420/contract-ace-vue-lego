@@ -335,6 +335,15 @@ export default {
             this.$refs.table.refreshTable();
             this.loadRoleOption();
             this.loadTotalUsers();
+            setTimeout(() => {
+                this.$notify(
+                    'Deleted Successfully',
+                    'Message',
+                    {
+                        type : 'success'
+                    }
+                );
+            }, 1000);
         }
     }
 };

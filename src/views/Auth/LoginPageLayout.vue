@@ -19,7 +19,7 @@
 
                 </div>
 
-                <div class="footer-text">POST JOBS. BID. HIRE</div>
+                <div class="footer-text">BID. BUY. BUILD</div>
             </div>
         </div>
         <div class="img-div">

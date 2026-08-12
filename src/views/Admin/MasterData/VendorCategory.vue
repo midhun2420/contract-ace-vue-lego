@@ -1,43 +1,44 @@
 <template>
     <vue-table-card title="Vendor Category" :fields="fields" :url="listUrl" :per-page="10" ref="table">
         <template #buttons>
-            <btn color="success" icon="fa fa-plus" size="sm" @click="$refs.addModal.show()" text="Add"/>
+            <btn color="success" icon="fa fa-plus" size="sm" @click="$refs.addModal.show()" text="Add" />
         </template>
 
-        <template #actions="{rowData}">
+        <template #actions="{ rowData }">
             <div class="btn-group-tight">
-                <delete-btn @click="setDelete(rowData)"/>
-                <edit-btn @click="setEdit(rowData)"/>
+                <delete-btn @click="setDelete(rowData)" />
+                <edit-btn @click="setEdit(rowData)" />
             </div>
         </template>
 
         <template #footer>
             <modal no-close-on-backdrop title="Add Vendor Category" ref="addModal" width="30r" header-color="primary">
-                <b-form :save-url="addUrl" @success="formSuccess" v-slot="{model, loading}">
-                    <validated-input label="Vendor Category"
-                                     v-model="model.name"
-                                     :disabled="loading"/>
+                <b-form :save-url="addUrl" @success="formSuccess" v-slot="{ model, loading }">
+                    <validated-input label="Vendor Category" v-model="model.name" :disabled="loading" />
                     <save-btn text="Add" color="primary" size="sm" :disabled="loading">
-                        <span v-if="loading"><loading-animation/><span style="vertical-align: super"> Saving...</span></span>
+                        <span v-if="loading"><loading-animation /><span style="vertical-align: super">
+                                Saving...</span></span>
                     </save-btn>
                 </b-form>
             </modal>
 
             <modal no-close-on-backdrop title="Edit Vendor Category" ref="editModal" width="30r" header-color="primary">
-                <b-form :save-url="addUrl" @success="formSuccess" v-slot="{model, loading}" :initial-data="editingItem">
-                    <validated-input label="Vendor Category" v-model="model.name"
-                                     :rules="rules.category" :disabled="loading"/>
+                <b-form :save-url="addUrl" @success="formSuccess" v-slot="{ model, loading }" :initial-data="editingItem">
+                    <validated-input label="Vendor Category" v-model="model.name" :rules="rules.category"
+                        :disabled="loading" />
                     <save-btn text="Save" :disabled="loading" color="primary" size="sm">
-                        <span v-if="loading"><loading-animation/><span style="vertical-align: super"> Saving...</span></span>
+                        <span v-if="loading"><loading-animation /><span style="vertical-align: super">
+                                Saving...</span></span>
                     </save-btn>
                 </b-form>
             </modal>
 
             <delete-modal ref="deleteModal" :url="deleteUrl" :params="deletingItem" @response="deleteComplete">
-                <p>You are about to delete the vendor category <b v-html="deletingItem && deletingItem.name"></b>. Are you sure ?</p>
+                <p>You are about to delete the vendor category <b v-html="deletingItem && deletingItem.name"></b>. Are
+                    you sure ?</p>
 
                 <template #loading>
-                    <loading-animation/>
+                    <loading-animation />
                     Please wait while we delete <b v-html="deletingItem && deletingItem.name"></b>.
                 </template>
             </delete-modal>
@@ -107,12 +108,19 @@ export default {
             this.deletingItem = null;
             this.$refs.deleteModal.close();
             this.$refs.table.refreshTable();
+            setTimeout(() => {
+                this.$notify(
+                    'Deleted Successfully',
+                    'Message',
+                    {
+                        type : 'success'
+                    }
+                );
+            }, 1000);
         }
     }
 };
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

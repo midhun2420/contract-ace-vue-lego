@@ -236,7 +236,10 @@ export default {
         formSuccess () {
             this.$refs.addModal.close();
             this.$refs.editModal.close();
-            this.$router.go();
+
+            setTimeout(() => {
+                this.$router.go();
+            }, 2500);
 
             this.editingItem = null;
         },
@@ -248,10 +251,43 @@ export default {
             this.deletingItem = { ...item };
             this.$refs.deleteModal.show();
         },
+        // deleteComplete (response) {
+        //     this.deletingItem = null;
+        //     this.$refs.deleteModal.close();
+
+        //     const message = response.data?.message;
+
+        //     this.$notify(
+        //         message,
+        //         'Message',
+        //         {
+        //             type : 'success'
+        //         }
+        //     );
+        // }
         deleteComplete (response) {
-            this.deletingItem = null;
-            this.$refs.deleteModal.close();
-            this.$router.go();
+            const data = response.data || response;
+            console.log(data);
+            if (data.success === true) {
+                this.$notify(
+                    data.message || 'Deleted Successfully',
+                    'Success',
+                    { type : 'success' }
+                );
+                this.$refs.deleteModal.close();
+                this.deletingItem = null;
+
+                setTimeout(() => {
+                    this.$router.go();
+                }, 1500);
+            } else {
+                this.$notify(
+                    data.message || 'Unable to delete record',
+                    'Warning',
+                    { type : 'warning' }
+                );
+                this.$refs.deleteModal.close();
+            }
         }
     }
 };

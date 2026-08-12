@@ -36,6 +36,16 @@ export default {
                     title     : 'Tender'
                 },
                 {
+                    name      : 'company',
+                    sortField : 'company',
+                    title     : 'Client'
+                },
+                {
+                    name      : 'bid_company_user',
+                    sortField : 'bid_company_user',
+                    title     : 'User'
+                },
+                {
                     name      : 'date_of_receipt',
                     sortField : 'date_of_receipt',
                     title     : 'Date of Receipt'

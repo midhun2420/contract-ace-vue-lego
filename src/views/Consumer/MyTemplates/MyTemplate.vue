@@ -120,6 +120,10 @@ export default {
             this.$refs.deleteModal.show();
         },
         deleteComplete (response) {
+            this.$notify('Deleted Successfully', '', {
+                type : 'success'
+            });
+
             this.deletingItem = null;
             this.$refs.deleteModal.close();
             this.$refs.table.refreshTable();
